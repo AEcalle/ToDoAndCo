@@ -99,7 +99,7 @@ final class TaskControllerTest extends WebTestCase
         self::assertEquals(!$isDone, $taskRepository->find($task->getId())->isDone());
     }
 
-    public function testDelete(): void
+    public function testDeleteSuccess(): void
     {
         $client = static::createClient();
 
@@ -107,9 +107,28 @@ final class TaskControllerTest extends WebTestCase
         $id = $taskRepository->findOneBy([])->getId();
 
         $this->login($this->getUserByRoles());
-        $client->request('GET', '/tasks/'.$id.'/delete');
+        $crawler = $client->request('GET', '/tasks');
+
+        $form = $crawler->selectButton('delete-task-'.$id);
+
+        $client->submit($form);
 
         self::assertResponseRedirects('/tasks');
-        self::assertNull($taskRepository->find($id));
+        self::assertNull($taskRepository->find($id));  
+    }
+
+    public function testDeleteFailureMissingToken(): void
+    {
+        $client = static::createClient();
+
+        $taskRepository = static::getContainer()->get(TaskRepository::class);
+        $id = $taskRepository->findOneBy([])->getId();
+
+        $this->login($this->getUserByRoles());
+
+        $client->request('POST', '/tasks/'.$id.'/delete');
+
+        self::assertResponseRedirects('/tasks');
+        self::assertNotNull($taskRepository->find($id));
     }
 }
