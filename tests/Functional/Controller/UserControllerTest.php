@@ -65,7 +65,7 @@ final class UserControllerTest extends WebTestCase
         ]);
         $crawler = $client->submit($form);
         self::assertTrue($crawler->filter('.invalid-feedback')->count() == 5);
-
+        self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=user]')->form([
             'user[username]' => 'Username',
@@ -96,6 +96,7 @@ final class UserControllerTest extends WebTestCase
         ]);
         $crawler = $client->submit($form);
         self::assertTrue($crawler->filter('.invalid-feedback')->count() == 4);
+        self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=user]')->form([
             'user[username]' => 'ModifiedUsername',

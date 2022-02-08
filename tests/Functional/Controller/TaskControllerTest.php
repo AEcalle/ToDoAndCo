@@ -48,7 +48,7 @@ final class TaskControllerTest extends WebTestCase
         ]);
         $crawler = $client->submit($form);
         self::assertTrue($crawler->filter('.invalid-feedback')->count() == 2);
-
+        self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=task]')->form([
             'task[title]' => 'Title',
@@ -74,6 +74,7 @@ final class TaskControllerTest extends WebTestCase
         ]);
         $crawler = $client->submit($form);
         self::assertTrue($crawler->filter('.invalid-feedback')->count() == 2);
+        self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=task]')->form([
             'task[title]' => 'ModifiedTitle',
