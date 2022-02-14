@@ -15,19 +15,20 @@ trait SecurityTrait
         $client = static::createClient();
         $client->request('GET', $uri);
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseRedirects('http://localhost/login');
     }
     /**
      * @param array<int, string> $roles
      */
-    public function getUserByRoles(array $roles = ['ROLE_ADMIN']): User
+    public function getUserByRoles(string $role = 'ROLE_ADMIN'): User
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
-        return $userRepository->findOneBy(['roles' => $roles]);
+        return $userRepository->findOneByRole($role);
     }
 
     public function login(User $testUser): KernelBrowser
     {
+        self::ensureKernelShutdown();
         $client = static::createClient();
         return $client->loginUser($testUser);
     }

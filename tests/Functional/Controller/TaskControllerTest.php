@@ -87,14 +87,14 @@ final class TaskControllerTest extends WebTestCase
         self::assertEquals('ModifiedContent', $taskRepository->find($id)->getContent());
     }
 
-    public function testToogle(): void
+    public function testToggle(): void
     {
         $taskRepository = static::getContainer()->get(TaskRepository::class);
         $task = $taskRepository->findOneBy([]);
         $isDone = $task->isDone();
 
         $client = $this->login($this->getUserByRoles());
-        $client->request('GET', '/tasks/'.$task->getId().'/toogle');
+        $client->request('GET', '/tasks/'.$task->getId().'/toggle');
 
         self::assertResponseRedirects('/tasks');
         self::assertEquals(!$isDone, $taskRepository->find($task->getId())->isDone());
@@ -110,7 +110,7 @@ final class TaskControllerTest extends WebTestCase
         $this->login($this->getUserByRoles());
         $crawler = $client->request('GET', '/tasks');
 
-        $form = $crawler->selectButton('delete-task-'.$id);
+        $form = $crawler->selectButton('delete-task-'.$id)->form();
 
         $client->submit($form);
 

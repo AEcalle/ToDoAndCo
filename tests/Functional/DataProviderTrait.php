@@ -15,7 +15,7 @@ trait DataProviderTrait
             ['/tasks'],
             ['/tasks/create'],
             ['/tasks/1/edit'],
-            ['/tasks/1/toogle'],
+            ['/tasks/1/toggle'],
             ['/tasks/1/delete'],
         ];
     }
