@@ -26,7 +26,7 @@ final class UserControllerTest extends WebTestCase
      */
     public function testForbiddenAccess(string $uri): void
     {
-        $client = $this->login($this->getUserByRoles(['ROLE_USER']));
+        $client = $this->login($this->getUserByRoles('ROLE_USER'));
 
         $client->request('GET', $uri);
 
@@ -107,7 +107,7 @@ final class UserControllerTest extends WebTestCase
         $client->submit($form);
 
         self::assertResponseRedirects('/users');
-        self::assertEquals('ModifiedUserName', $userRepository->find($id)->getUserName());
+        self::assertEquals('ModifiedUserName', $userRepository->find($id)->getUsername());
         self::assertEquals('ModifiedEmail', $userRepository->find($id)->getEmail());
     }
 

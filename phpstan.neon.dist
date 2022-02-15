@@ -1,0 +1,15 @@
+parameters:
+    symfony:
+        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+    level: 9
+    paths:
+        - src
+        - tests
+    excludePaths:
+        analyse:
+            - tests/bootstrap.php
+    ignoreErrors:
+        -
+            message: '#Cannot call method [a-zA-Z0-9\\_]+::doBar\(\) on [a-zA-Z0-9\\]|#'
+            paths:
+                - tests/*
