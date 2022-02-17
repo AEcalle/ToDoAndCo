@@ -16,7 +16,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: 'Password123!'
         ports:
-          - 3306:3306
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v2
