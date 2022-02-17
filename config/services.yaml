@@ -19,6 +19,21 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\UseCase\User\Register\RegisterHandler:
+        tags: [{ name: messenger.message_handler, bus: command.bus }]
+        autoconfigure: false
+    App\UseCase\User\List\ListHandler:
+        tags: [{ name: messenger.message_handler, bus: query.bus }]
+        autoconfigure: false
+    App\UseCase\Task\Register\RegisterHandler:
+        tags: [{ name: messenger.message_handler, bus: command.bus }]
+        autoconfigure: false
+    App\UseCase\Task\Toggle\ToggleHandler:
+        tags: [{ name: messenger.message_handler, bus: command.bus }]
+        autoconfigure: false
+    App\UseCase\Task\Delete\DeleteHandler:
+        tags: [{ name: messenger.message_handler, bus: command.bus }]
+        autoconfigure: false
+    App\UseCase\Task\List\ListHandler:
+        tags: [{ name: messenger.message_handler, bus: query.bus }]
+        autoconfigure: false

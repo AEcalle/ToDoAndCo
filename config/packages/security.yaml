@@ -16,11 +16,12 @@ security:
             provider: doctrine
             form_login:
                 login_path: login
-                check_path: login_check
+                check_path: login
                 always_use_default_target_path:  true
                 default_target_path:  /
                 enable_csrf: true
-            logout: ~
+            logout:
+                path: logout
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/users, roles: PUBLIC_ACCESS }
