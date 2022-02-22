@@ -8,9 +8,7 @@ use App\Entity\User;
 
 final class RegisterCommand
 {
-    private User $user;
-
-    public function __construct(User $user)
+    public function __construct(private User $user)
     {
         $this->user = $user;
     }

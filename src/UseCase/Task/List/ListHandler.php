@@ -10,9 +10,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class ListHandler
 {
-    private TaskRepository $taskRepository;
-
-    public function __construct(TaskRepository $taskRepository)
+    public function __construct(private TaskRepository $taskRepository)
     {
         $this->taskRepository = $taskRepository;
     }

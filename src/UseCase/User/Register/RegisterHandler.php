@@ -11,12 +11,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsMessageHandler]
 final class RegisterHandler
 {
-    private EntityManagerInterface $entityManager;
-    private UserPasswordHasherInterface $passwordHasher;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher
+        private EntityManagerInterface $entityManager,
+        private UserPasswordHasherInterface $passwordHasher
     ) {
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;

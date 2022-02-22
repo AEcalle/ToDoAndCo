@@ -7,28 +7,14 @@ namespace App\UseCase\Task\List;
 final class ListQuery
 {
     /**
-     * @var array<string,string>@criteria
-     */
-    private array $criteria;
-
-    /**
-     * @var array<string,string>
-     */
-    private array $orderBy;
-
-    private ?int $offset;
-
-    private ?int $limit;
-
-    /**
      * @param array<string,string> $criteria
      * @param array<string,string> $orderBy
      */
     public function __construct(
-        array $criteria = [],
-        array $orderBy = [],
-        int $offset = null,
-        int $limit = null)
+        private array $criteria = [],
+        private array $orderBy = [],
+        private int $offset = null,
+        private int $limit = null)
     {
         $this->criteria = $criteria;
         $this->orderBy = $orderBy;

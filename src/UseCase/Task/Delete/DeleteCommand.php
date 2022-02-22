@@ -8,9 +8,7 @@ use App\Entity\Task;
 
 final class DeleteCommand
 {
-    private Task $task;
-
-    public function __construct(Task $task)
+    public function __construct(private Task $task)
     {
         $this->task = $task;
     }

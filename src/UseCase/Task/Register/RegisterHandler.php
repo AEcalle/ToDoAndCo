@@ -10,10 +10,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class RegisterHandler
 {
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager
     ) {
         $this->entityManager = $entityManager;
     }
