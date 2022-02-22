@@ -3,6 +3,8 @@ on: [push]
 jobs:
   ci:
     name: Continuous Integration
+    env:
+      DATABASE_URL: "mysql://root:Password123!@172.18.0.1:3306/todoandco?serverVersion=8.0.21"
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -40,8 +42,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Install
-        env:
-          DATABASE_URL: "mysql://root:Password123!@172.18.0.1:3306/todoandco?serverVersion=8.0.21"
         run: |
           composer install
           npm install
