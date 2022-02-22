@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Security;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class LoginController extends AbstractController
 {
     #[Route('/login', name: 'login')]
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
@@ -21,17 +21,5 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
-    }
-
-    #[Route('/login_check', name: 'login_check')]
-    public function loginCheck(): void
-    {
-        // This code is never executed.
-    }
-
-    #[Route('/logout', name: 'logout')]
-    public function logoutCheck(): void
-    {
-        // This code is never executed.
     }
 }
