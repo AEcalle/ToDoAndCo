@@ -13,8 +13,8 @@ final class ListQuery
     public function __construct(
         private array $criteria = [],
         private array $orderBy = [],
-        private int $offset = null,
-        private int $limit = null)
+        private ?int $offset = null,
+        private ?int $limit = null)
     {
         $this->criteria = $criteria;
         $this->orderBy = $orderBy;
