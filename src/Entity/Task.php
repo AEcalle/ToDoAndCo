@@ -14,7 +14,7 @@ class Task
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
@@ -30,13 +30,16 @@ class Task
     #[ORM\Column(type: 'boolean')]
     private bool $isDone;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $author;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->isDone = false;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -79,5 +82,15 @@ class Task
     public function toggle(bool $flag): void
     {
         $this->isDone = $flag;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): void
+    {
+        $this->author = $author;
     }
 }
