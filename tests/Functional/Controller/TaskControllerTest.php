@@ -47,7 +47,8 @@ final class TaskControllerTest extends WebTestCase
             'task[content]' => '',
         ]);
         $crawler = $client->submit($form);
-        self::assertTrue($crawler->filter('.invalid-feedback')->count() == 2);
+
+        self::assertTrue(2 == $crawler->filter('.invalid-feedback')->count());
         self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=task]')->form([
@@ -57,7 +58,7 @@ final class TaskControllerTest extends WebTestCase
         $client->submit($form);
         $crawler = $client->followRedirect();
 
-        self::assertCount($nbTasks + 1, $crawler->filter('.tasks'));
+        self::assertCount($nbTasks + 1, $crawler->filter('.task'));
     }
 
     public function testEdit(): void
@@ -73,7 +74,7 @@ final class TaskControllerTest extends WebTestCase
             'task[content]' => '',
         ]);
         $crawler = $client->submit($form);
-        self::assertTrue($crawler->filter('.invalid-feedback')->count() == 2);
+        self::assertTrue(2 == $crawler->filter('.invalid-feedback')->count());
         self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=task]')->form([
@@ -107,7 +108,7 @@ final class TaskControllerTest extends WebTestCase
         $taskRepository = static::getContainer()->get(TaskRepository::class);
         $id = $taskRepository->findOneBy([])->getId();
 
-        $this->login($this->getUserByRoles());
+        $client = $this->login($this->getUserByRoles());
         $crawler = $client->request('GET', '/tasks');
 
         $form = $crawler->selectButton('delete-task-'.$id)->form();
@@ -115,7 +116,7 @@ final class TaskControllerTest extends WebTestCase
         $client->submit($form);
 
         self::assertResponseRedirects('/tasks');
-        self::assertNull($taskRepository->find($id));  
+        self::assertNull($taskRepository->find($id));
     }
 
     public function testDeleteFailureMissingToken(): void
@@ -125,7 +126,7 @@ final class TaskControllerTest extends WebTestCase
         $taskRepository = static::getContainer()->get(TaskRepository::class);
         $id = $taskRepository->findOneBy([])->getId();
 
-        $this->login($this->getUserByRoles());
+        $client = $this->login($this->getUserByRoles());
 
         $client->request('POST', '/tasks/'.$id.'/delete');
 

@@ -30,8 +30,8 @@ class UpdateController extends AbstractController
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/edit.html.twig', [
-            'form' => $form->createView(),
+        return $this->renderForm('task/edit.html.twig', [
+            'form' => $form,
             'task' => $task,
         ]);
     }

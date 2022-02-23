@@ -3,8 +3,11 @@
 {% block body %}
     <div class="row">
         {{ form_start(form, {'action' : path('task_create')}) }}
-            {{ form_widget(form) }}
-
+            {% for error in form.vars.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ error.message }}
+                </div>
+            {% endfor %}
             <button type="submit" class="btn btn-success pull-right">Ajouter</button>
         {{ form_end(form) }}
 
