@@ -66,11 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(?string $password): void
     {
-        if (null !== $password) {
-            $this->password = $password;
-        } else {
-            $this->password = '';
-        }
+        $this->password = $password ?? '';
     }
 
     public function getEmail(): string
