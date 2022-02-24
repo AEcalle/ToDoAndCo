@@ -6,7 +6,6 @@ namespace App\Tests\Functional\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 
 final class UserControllerTest extends WebTestCase
 {
@@ -30,16 +29,15 @@ final class UserControllerTest extends WebTestCase
 
         $client->request('GET', $uri);
 
-        self::assertResponseRedirects('/login', Response::HTTP_FORBIDDEN);
+        self::assertResponseStatusCodeSame(403);
     }
-
 
     public function testList(): void
     {
         $repository = static::getContainer()->get(UserRepository::class);
         $nbItems = $repository->count([]);
 
-        $client =$this->login($this->getUserByRoles());
+        $client = $this->login($this->getUserByRoles());
         $crawler = $client->request('GET', '/users');
 
         self::assertResponseIsSuccessful();
@@ -61,10 +59,11 @@ final class UserControllerTest extends WebTestCase
             'user[password][first]' => '',
             'user[password][second]' => '',
             'user[email]' => '',
-            'user[roles]' => '',
+            'user[roles]' => 'ROLE_USER',
         ]);
         $crawler = $client->submit($form);
-        self::assertTrue($crawler->filter('.invalid-feedback')->count() == 5);
+
+        self::assertTrue(3 == $crawler->filter('.invalid-feedback')->count());
         self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=user]')->form([
@@ -72,7 +71,7 @@ final class UserControllerTest extends WebTestCase
             'user[password][first]' => 'Password',
             'user[password][second]' => 'Password',
             'user[email]' => 'email@email.com',
-            'user[roles]' => ['ROLE_USER'],
+            'user[roles]' => 'ROLE_USER',
         ]);
         $client->submit($form);
         $crawler = $client->followRedirect();
@@ -85,7 +84,7 @@ final class UserControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $id = $userRepository->findOneBy([])->getId();
 
-        $client =$this->login($this->getUserByRoles());
+        $client = $this->login($this->getUserByRoles());
         $crawler = $client->request('GET', '/users/'.$id.'/edit');
 
         $form = $crawler->filter('form[name=user]')->form([
@@ -93,9 +92,11 @@ final class UserControllerTest extends WebTestCase
             'user[password][first]' => '',
             'user[password][second]' => '',
             'user[email]' => '',
+            'user[roles]' => 'ROLE_USER',
         ]);
         $crawler = $client->submit($form);
-        self::assertTrue($crawler->filter('.invalid-feedback')->count() == 4);
+
+        self::assertTrue(3 == $crawler->filter('.invalid-feedback')->count());
         self::assertResponseStatusCodeSame(422);
 
         $form = $crawler->filter('form[name=user]')->form([
@@ -103,12 +104,12 @@ final class UserControllerTest extends WebTestCase
             'user[password][first]' => 'ModifiedPassword',
             'user[password][second]' => 'ModifiedPassword',
             'user[email]' => 'modified@email.com',
+            'user[roles]' => 'ROLE_USER',
         ]);
         $client->submit($form);
 
         self::assertResponseRedirects('/users');
-        self::assertEquals('ModifiedUserName', $userRepository->find($id)->getUsername());
-        self::assertEquals('ModifiedEmail', $userRepository->find($id)->getEmail());
+        self::assertEquals('ModifiedUsername', $userRepository->find($id)->getUsername());
+        self::assertEquals('modified@email.com', $userRepository->find($id)->getEmail());
     }
-
 }

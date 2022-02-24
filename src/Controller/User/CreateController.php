@@ -31,6 +31,6 @@ class CreateController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->renderForm('user/create.html.twig', ['form' => $form]);
     }
 }

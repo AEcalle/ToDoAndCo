@@ -30,6 +30,6 @@ class UpdateController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->renderForm('user/edit.html.twig', ['form' => $form, 'user' => $user]);
     }
 }

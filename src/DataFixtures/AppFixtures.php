@@ -19,16 +19,28 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 10; ++$i) {
+        $user = new User();
+        $user->setEmail('anonyme@email.com');
+        $user->setPassword($this->passwordHasher->hashPassword(
+            $user,
+            'password'
+        ));
+        $user->setUsername('anonyme');
+        $user->setRoles(['ROLE_USER']);
+        $manager->persist($user);
+        $manager->flush();
+
+        for ($j = 0; $j < 3; ++$j) {
             $task = new Task();
-            $task->setTitle('Tâche'.$i);
+            $task->setTitle('Tâche'.$j);
             $task->setCreatedAt(new \DateTimeImmutable());
-            $task->setContent('Contenu'.$i);
+            $task->setContent('Contenu'.$j);
+            $task->setAuthor($user);
             $manager->persist($task);
             $manager->flush();
         }
 
-        for ($i = 0; $i < 5; ++$i) {
+        for ($i = 0; $i < 10; ++$i) {
             $user = new User();
             $user->setEmail('email'.$i.'@email.com');
             $user->setPassword($this->passwordHasher->hashPassword(
@@ -39,6 +51,16 @@ class AppFixtures extends Fixture
             $user->setRoles(0 === $i % 2 ? ['ROLE_ADMIN'] : ['ROLE_USER']);
             $manager->persist($user);
             $manager->flush();
+
+            for ($j = 0; $j < mt_rand(0, 5); ++$j) {
+                $task = new Task();
+                $task->setTitle('Tâche'.$j);
+                $task->setCreatedAt(new \DateTimeImmutable());
+                $task->setContent('Contenu'.$j);
+                $task->setAuthor($user);
+                $manager->persist($task);
+                $manager->flush();
+            }
         }
     }
 }

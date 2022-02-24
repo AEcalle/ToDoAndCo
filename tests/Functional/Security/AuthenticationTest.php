@@ -12,32 +12,37 @@ final class AuthenticationTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/login');
+        $crawler = $client->request('GET', '/login');
 
         self::assertResponseIsSuccessful();
 
-        $client->submitForm('login_form', [
+        $form = $crawler->filter('form[name=login_form]')->form([
             '_username' => 'email@email.com',
             '_password' => 'password',
         ]);
+        $client->submit($form);
 
-        self::assertResponseRedirects('/');
+        self::assertResponseStatusCodeSame(302);
     }
 
     public function testAuthenticationFailure(): void
     {
         $client = self::createClient();
 
-        $client->request('GET', '/login');
+        $crawler = $client->request('GET', '/login');
 
         self::assertResponseIsSuccessful();
 
-        $client->submitForm('login_form', [
+        $form = $crawler->filter('form[name=login_form]')->form([
             '_username' => 'email@email.com',
             '_password' => 'WorngPassword',
         ]);
+        $crawler = $client->submit($form);
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseStatusCodeSame(302);
+
+        $client->followRedirect();
+
+        self::assertSelectorTextContains('html', 'Invalid credentials.');
     }
-
 }
