@@ -20,8 +20,16 @@ final class ListHandler
 
     public function __invoke(ListQuery $query): mixed
     {
-        $list = $this->redisCache->get('taskLists', function(ItemInterface $item) use ($query) {
-            $item->tag(['Tasks', 'offset'.$query->getOffset(), 'limit'.$query->getLimit()]);
+        $list = $this->redisCache->get(
+            'tasksList'.http_build_query(
+                [
+                    $query->getCriteria(),
+                    $query->getOrderBy(),
+                    $query->getOffset(),
+                    $query->getLimit()
+                ]
+            ), function(ItemInterface $item) use ($query) {
+            $item->tag(['Tasks']);
             return $this->taskRepository->findBy(
                 $query->getCriteria(),
                 $query->getOrderBy(),

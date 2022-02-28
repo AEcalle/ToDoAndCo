@@ -20,8 +20,16 @@ final class ListHandler
 
     public function __invoke(ListQuery $query): mixed
     {
-        $list = $this->redisCache->get('userLists', function(ItemInterface $item) use ($query) {
-            $item->tag(['Users', 'offset'.$query->getOffset(), 'limit'.$query->getLimit()]);
+        $list = $this->redisCache->get(
+            'usersList'.http_build_query(
+                [
+                    $query->getCriteria(),
+                    $query->getOrderBy(),
+                    $query->getOffset(),
+                    $query->getLimit()
+                ]
+            ), function(ItemInterface $item) use ($query) {
+            $item->tag(['Users']);
             return $this->userRepository->findBy(
                 $query->getCriteria(),
                 $query->getOrderBy(),
