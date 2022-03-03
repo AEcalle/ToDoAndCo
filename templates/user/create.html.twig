@@ -5,14 +5,20 @@
 
 {% block body %}
     <div class="row">
-        {{ form_start(form, {'action' : path('user_create')}) }}
-            {% for error in form.vars.errors %}
-                <div class="invalid-feedback d-block">
-                    {{ error.message }}
-                </div>
-            {% endfor %}
-
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
-        {{ form_end(form) }}
+            <div class="col-12 col-lg-4">
+            {{ form_start(form, {'action' : path('user_create')}) }}
+                {% for error in form.vars.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ error.message }}
+                    </div>
+                {% endfor %}
+                {{ form_row(form.username, {'attr': {'class':'form-control'}}) }}   
+                {{ form_row(form.password.first, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.password.second, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.email, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.roles, {'attr': {'class':'form-control'}}) }}
+                <button type="submit" class="btn btn-success my-3">Ajouter</button>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
