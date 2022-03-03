@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\UseCase\User\List\ListHandler;
 use App\UseCase\User\List\ListQuery;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class ListHandlerTest extends KernelTestCase
 {
@@ -16,8 +17,9 @@ class ListHandlerTest extends KernelTestCase
         self::bootKernel();
 
         $userRepository = static::getContainer()->get(UserRepository::class);
+        $redisCache = static::getContainer()->get(TagAwareCacheInterface::class);
         $nbUsers = $userRepository->count([]);
-        $listHandler = new ListHandler($userRepository);
+        $listHandler = new ListHandler($userRepository,$redisCache);
 
         $users = $listHandler->__invoke(new ListQuery());
 

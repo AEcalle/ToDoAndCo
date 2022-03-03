@@ -30,7 +30,7 @@ class Task
     #[ORM\Column(type: 'boolean')]
     private bool $isDone;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EAGER')]
     private ?User $author;
 
     public function __construct()
