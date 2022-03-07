@@ -54,7 +54,7 @@ To migrate from old ToDo & Co database to new database
 Run these commands
 ```
 $ php bin/console doctrine:migrations:migrate
-$ php bin/console doctrine:fixtures:load -n --apend
+$ php bin/console doctrine:fixtures:load -n --append
 
 ```
 Alternatively, you can create a new database with these commands
