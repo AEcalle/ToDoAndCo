@@ -77,8 +77,6 @@ $ php bin/console doctrine:schema:update -f --env=test
 
 $ php bin/console doctrine:fixtures:load -n --env=test
 ```
-
-```
 ### __Run the tests__
 To run all tests, use the following command:
 ```
