@@ -91,4 +91,4 @@ $ ./vendor/bin/phpunit
 ---
 ## CONTRIBUTION
 
-See [Contributing file](CONTRIB.md).
+See [Contributing file](https://github.com/AEcalle/ToDoAndCo/blob/develop/CONTRIBUTING.md).
